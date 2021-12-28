@@ -22,6 +22,18 @@ class HttpStatusCodeSpanDecoratorTest extends SpanDecoratorTestBase {
                 .hasAttributes(Attributes.of(SpanAttributes.HTTP_STATUS_CODE, 204L));
     }
 
+    @Test
+    void testHttpStatusAttributeOnDefaultShouldNotBeThere() {
+        testClient.get().uri("/hello")
+                .exchange()
+                .expectStatus().isEqualTo(200);
+
+        assertThat(lastRecordedSpan())
+                .hasKind(SpanKind.SERVER)
+                .hasAttributesSatisfying(attrs -> assertThat(attrs.asMap())
+                        .doesNotContainKey(SpanAttributes.HTTP_STATUS_CODE));
+    }
+
     @Override
     List<WebFluxSpanDecorator> getActiveDecorators() {
         return List.of(new HttpStatusCodeSpanDecorator());

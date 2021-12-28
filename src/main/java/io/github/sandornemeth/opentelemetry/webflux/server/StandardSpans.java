@@ -9,8 +9,11 @@ public class StandardSpans extends DelegatingSpanDecorator {
                 new HttpMethodSpanDecorator(),
                 new HttpPathSpanDecorator(),
                 new HttpPreferSpanDecorator(),
+                new HttpRetryAfterSpanDecorator(),
                 new HttpStatusCodeSpanDecorator(),
-                new PeerSpanDecorator()
+                new StatusSpanDecorator(),
+                new PeerSpanDecorator(),
+                new ErrorSpanDecorator()
         ));
     }
 }
